@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - EduSafe</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div class="phone-screen">
+      <h3>Create your account</h3>
+
+      <form class="login-form" id="signupForm">
+        <label>Full name</label>
+        <input type="text" id="signupName" placeholder="Your name" required />
+
+        <label>Email</label>
+        <input
+          type="email"
+          id="signupEmail"
+          placeholder="name@example.com"
+          required
+        />
+
+        <label>Password</label>
+        <input
+          type="password"
+          id="signupPassword"
+          placeholder="••••••••"
+          required
+          minlength="6"
+        />
+
+        <label>Confirm password</label>
+        <input
+          type="password"
+          id="signupConfirmPassword"
+          placeholder="••••••••"
+          required
+        />
+
+        <div class="role-tabs">
+          <button type="button" class="role-tab active" data-role="student">
+            Student
+          </button>
+          <button type="button" class="role-tab" data-role="teacher">
+            Teacher
+          </button>
+          <button type="button" class="role-tab" data-role="parent">
+            Parent
+          </button>
+        </div>
+
+        <button type="submit" class="btn-primary full-width">
+          Create account
+        </button>
+      </form>
+
+      <p class="signup-link">
+        Already have an account? <a href="login.html">Log in</a>
+      </p>
+    </div>
+    <script src="main.js"></script>
+    <!-- ✅ Changed this -->
+  </body>
+</html>

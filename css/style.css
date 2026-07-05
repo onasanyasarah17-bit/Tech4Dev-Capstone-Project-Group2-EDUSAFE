@@ -1,0 +1,516 @@
+/* ==========================================================================
+   EduSafe - Figma Design System (Page 2)
+   ========================================================================== */
+
+:root {
+  /* ---- Primary Colors (from Figma) ---- */
+  --color-primary: #06359C;
+  --primary-10: #CDD7EB;
+  --primary-20: #9BAED7;
+  --primary-30: #6A86C4;
+  --primary-40: #385DB0;
+  --primary-50: #06359C;
+  --primary-60: #052A7D;
+  --primary-70: #04205E;
+  --primary-80: #02153E;
+  --primary-90: #010B1F;
+
+  /* ---- Secondary Colors (warm neutrals) ---- */
+  --secondary-10: #FCFCFB;
+  --secondary-20: #FAF9F7;
+  --secondary-30: #F7F5F2;
+  --secondary-40: #F5F2EE;
+  --secondary-50: #F2EFEA;
+  --secondary-60: #918F8C;
+  --secondary-70: #61605E;
+  --secondary-80: #30302F;
+
+  /* ---- Grey Shades ---- */
+  --grey-10: #D3D3D3;
+  --grey-20: #A7A7A7;
+  --grey-30: #7A7A7A;
+  --grey-40: #4E4E4E;
+  --grey-50: #222222;
+
+  /* ---- Typography ---- */
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* ---- Spacing ---- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* ---- Border Radius ---- */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  /* ---- Shadows (Figma style) ---- */
+  --shadow-xs: 0 1px 2px rgba(2, 21, 62, 0.05);
+  --shadow-sm: 0 2px 8px rgba(2, 21, 62, 0.08);
+  --shadow-md: 0 4px 16px rgba(2, 21, 62, 0.10);
+  --shadow-lg: 0 8px 32px rgba(2, 21, 62, 0.14);
+  --shadow-xl: 0 16px 48px rgba(2, 21, 62, 0.18);
+
+  /* ---- Transitions ---- */
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   Reset & Base
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  color: var(--grey-50);
+  background: linear-gradient(160deg, var(--secondary-40) 0%, var(--secondary-10) 100%);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   Typography (Figma Text Styles)
+   ========================================================================== */
+h1 {
+  font-size: 72px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--primary-90);
+}
+
+h2 {
+  font-size: 48px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--primary-90);
+}
+
+h3 {
+  font-size: 32px;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--primary-90);
+}
+
+h4 {
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--primary-90);
+}
+
+h5 {
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--grey-40);
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--grey-40);
+}
+
+.subtext {
+  font-size: 15px;
+  color: var(--grey-30);
+  margin-bottom: var(--space-lg);
+}
+
+/* ==========================================================================
+   Buttons (Figma style)
+   ========================================================================== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-50), var(--primary-60));
+  color: #fff;
+  border: none;
+  padding: 16px 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  min-height: 56px;
+  letter-spacing: 0.01em;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-60), var(--primary-70));
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--primary-20);
+  padding: 14px 28px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: var(--transition);
+  min-height: 56px;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-primary);
+  background-color: var(--primary-10);
+  transform: translateY(-2px);
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Phone Screen (Main Container)
+   ========================================================================== */
+.phone-screen {
+  max-width: 390px;
+  min-height: 844px;
+  margin: 40px auto;
+  padding: 48px 28px 32px;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Splash Screen (Figma Design)
+   ========================================================================== */
+.splash-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 844px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--secondary-10) 100%);
+}
+
+.splash-logo {
+  font-size: 72px;
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, var(--primary-10), var(--primary-20));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.splash-screen h2 {
+  font-size: 40px;
+  margin-bottom: var(--space-sm);
+  color: var(--primary-90);
+}
+
+.splash-screen p {
+  font-size: 18px;
+  color: var(--grey-40);
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.splash-progress {
+  width: 100%;
+  max-width: 280px;
+  height: 8px;
+  background-color: var(--primary-10);
+  border-radius: var(--radius-full);
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-xl);
+  overflow: hidden;
+}
+
+.splash-progress-bar {
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-50), var(--primary-60));
+  border-radius: var(--radius-full);
+  animation: progressPulse 2s ease-in-out infinite;
+}
+
+@keyframes progressPulse {
+  0%, 100% { width: 60%; opacity: 1; }
+  50% { width: 75%; opacity: 0.8; }
+}
+
+/* ==========================================================================
+   Login & Signup Forms
+   ========================================================================== */
+.shield-icon {
+  font-size: 56px;
+  margin-bottom: var(--space-md);
+  display: inline-block;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: var(--space-sm);
+}
+
+.login-form label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--grey-40);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+.login-form input {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--secondary-40);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-family: var(--font-main);
+  transition: var(--transition);
+  background-color: var(--secondary-10);
+  color: var(--grey-50);
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--primary-40);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px var(--primary-10);
+}
+
+.login-form input::placeholder {
+  color: var(--grey-20);
+}
+
+.login-form button,
+.login-form a.btn-primary {
+  margin-top: var(--space-lg);
+}
+
+.remember-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-top: var(--space-md);
+  color: var(--grey-30);
+}
+
+.remember-row label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-transform: none;
+  font-weight: 400;
+  color: var(--grey-40);
+}
+
+.remember-row a {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   Role Tabs (Figma Design)
+   ========================================================================== */
+.role-tabs {
+  display: flex;
+  gap: var(--space-sm);
+  margin: var(--space-lg) 0;
+  background-color: var(--secondary-30);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.role-tab {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--grey-30);
+  transition: var(--transition);
+}
+
+.role-tab:hover {
+  color: var(--grey-50);
+}
+
+.role-tab.active {
+  background-color: #ffffff;
+  color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================================================
+   Dashboard Cards (Figma Design)
+   ========================================================================== */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary-10), var(--primary-20));
+  color: var(--primary-70);
+  margin-bottom: var(--space-sm);
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid var(--secondary-40);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  text-align: left;
+  box-shadow: var(--shadow-xs);
+  transition: var(--transition);
+  margin-bottom: var(--space-md);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  border-color: var(--primary-20);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-90);
+  margin-bottom: var(--space-xs);
+}
+
+.card-subtext {
+  font-size: 13px;
+  color: var(--grey-30);
+  margin-bottom: 0;
+}
+
+.card-row {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.card-row .card {
+  flex: 1;
+  text-align: center;
+}
+
+.card-row .card .card-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* ==========================================================================
+   Email Confirmation
+   ========================================================================== */
+.confirm-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-md);
+  display: inline-block;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+.signup-link {
+  margin-top: var(--space-lg);
+  font-size: 15px;
+  color: var(--grey-30);
+}
+
+.signup-link a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 480px) {
+  .phone-screen {
+    margin: 16px;
+    padding: 32px 20px 24px;
+    min-height: auto;
+    border-radius: var(--radius-md);
+  }
+
+  .splash-screen {
+    min-height: auto;
+  }
+
+  .splash-logo {
+    width: 96px;
+    height: 96px;
+    font-size: 56px;
+  }
+
+  .splash-screen h2 {
+    font-size: 32px;
+  }
+
+  .card-row {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    min-height: 48px;
+    padding: 12px 24px;
+  }
+}
