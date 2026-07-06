@@ -1,8 +1,4 @@
-// ============================================================
-// EduSafe - Complete Authentication System
-// ============================================================
 
-// --- User Database (stored in localStorage) ---
 const USERS_KEY = 'edusafe_users';
 const SESSION_KEY = 'edusafe_session';
 
@@ -42,10 +38,6 @@ function isLoggedIn() {
 function getCurrentUser() {
     return getSession();
 }
-
-// ============================================================
-// 1. SPLASH PAGE - Auto-login check
-// ============================================================
 if (document.querySelector('#splashScreen')) {
     const getStartedBtn = document.getElementById('getStartedBtn');
     
@@ -62,10 +54,6 @@ if (document.querySelector('#splashScreen')) {
         });
     }
 }
-
-// ============================================================
-// 2. SIGNUP PAGE
-// ============================================================
 if (document.querySelector('#signupForm')) {
     const signupForm = document.getElementById('signupForm');
     const nameInput = document.getElementById('signupName');
@@ -141,9 +129,6 @@ if (document.querySelector('#signupForm')) {
     });
 }
 
-// ============================================================
-// 3. LOGIN PAGE
-// ============================================================
 if (document.querySelector('#loginForm')) {
     const loginForm = document.getElementById('loginForm');
     const emailInput = document.getElementById('loginEmail');
@@ -197,9 +182,6 @@ if (document.querySelector('#loginForm')) {
     });
 }
 
-// ============================================================
-// 4. DASHBOARD PAGE
-// ============================================================
 if (document.querySelector('#welcomeMessage')) {
     // Check if user is logged in
     if (!isLoggedIn()) {
@@ -209,10 +191,10 @@ if (document.querySelector('#welcomeMessage')) {
 
     const user = getCurrentUser();
     
-    // Update dashboard with user info
+
     document.getElementById('welcomeMessage').textContent = `Welcome back, ${user.name}`;
     
-    // Update role badge
+
     const roleBadge = document.getElementById('userRole');
     if (roleBadge) {
         const roleMap = {
@@ -232,10 +214,6 @@ if (document.querySelector('#welcomeMessage')) {
         });
     }
 }
-
-// ============================================================
-// 5. EMAIL CONFIRMATION PAGE
-// ============================================================
 if (document.querySelector('#confirmationEmail')) {
     const user = getCurrentUser();
     if (user) {
@@ -247,10 +225,6 @@ if (document.querySelector('#confirmationEmail')) {
     }
 }
 
-// ============================================================
-// 6. PROTECTED PAGES - Redirect if not logged in
-// ============================================================
-// Add this to any page that requires authentication
 const protectedPages = ['dashboard.html', 'email-confirm.html'];
 const currentPage = window.location.pathname.split('/').pop();
 
