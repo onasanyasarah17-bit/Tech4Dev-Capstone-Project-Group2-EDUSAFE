@@ -44,8 +44,14 @@ if (document.querySelector('#splashScreen')) {
     // Check if user is already logged in
     if (isLoggedIn()) {
         const user = getCurrentUser();
-        // Auto-redirect to dashboard
-        window.location.href = 'dashboard.html';
+        // Auto-redirect to appropriate dashboard
+        if (user.role === 'parent') {
+            window.location.href = 'parent-dashboard.html';
+        } else if (user.role === 'teacher') {
+            window.location.href = 'teacher-dashboard.html';
+        } else {
+            window.location.href = 'dashboard.html';
+        }
     } else {
         // User is not logged in, "Get Started" goes to login
         getStartedBtn.addEventListener('click', function(e) {
@@ -177,8 +183,14 @@ if (document.querySelector('#loginForm')) {
             role: user.role
         });
 
-        // Redirect to dashboard
-        window.location.href = 'dashboard.html';
+        // Redirect to appropriate dashboard
+        if (user.role === 'parent') {
+            window.location.href = 'parent-dashboard.html';
+        } else if (user.role === 'teacher') {
+            window.location.href = 'teacher-dashboard.html';
+        } else {
+            window.location.href = 'dashboard.html';
+        }
     });
 }
 
@@ -225,7 +237,7 @@ if (document.querySelector('#confirmationEmail')) {
     }
 }
 
-const protectedPages = ['dashboard.html', 'email-confirm.html'];
+const protectedPages = ['dashboard.html', 'email-confirm.html', 'parent-dashboard.html', 'teacher-dashboard.html'];
 const currentPage = window.location.pathname.split('/').pop();
 
 if (protectedPages.includes(currentPage)) {

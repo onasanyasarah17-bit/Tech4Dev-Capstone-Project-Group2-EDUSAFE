@@ -1,121 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Learning Hub</title>
+    <title>Welcome - EduSafe</title>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <header class="topbar">
-      <div class="brand">StudyFlow</div>
-      <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <nav class="topnav" id="topnav">
-        <a href="#about">About</a>
-        <a href="#features">Features</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
-
-    <main class="container">
-      <section class="hero">
-        <div>
-          <p class="eyebrow">Capstone Project</p>
-          <h1>Student Learning Hub</h1>
-          <p class="subtitle">
-            A polished, responsive web page inspired by your Figma student architecture concept.
-          </p>
-          <div class="hero-actions">
-            <a href="#features" class="cta">Explore Features</a>
-            <a href="#about" class="cta secondary">Learn More</a>
-          </div>
-        </div>
-        <div class="hero-card">
-          <h3>Today’s Overview</h3>
-          <ul>
-            <li>3 lessons completed</li>
-            <li>2 assignments due</li>
-            <li>1 new study recommendation</li>
-          </ul>
-        </div>
-      </section>
-
-      <section id="about" class="stats-grid">
-        <div class="stat-card">
-          <strong>12+</strong>
-          <span>Learning tools</span>
-        </div>
-        <div class="stat-card">
-          <strong>24/7</strong>
-          <span>Support access</span>
-        </div>
-        <div class="stat-card">
-          <strong>100%</strong>
-          <span>Progress tracking</span>
-        </div>
-      </section>
-
-      <section class="filter-section">
-        <h2>Explore the platform</h2>
-        <nav class="filter-bar" aria-label="Feature categories">
-          <button class="nav-btn active" data-filter="all">All</button>
-          <button class="nav-btn" data-filter="core">Core</button>
-          <button class="nav-btn" data-filter="learning">Learning</button>
-          <button class="nav-btn" data-filter="support">Support</button>
-          <button class="nav-btn" data-filter="resources">Resources</button>
-        </nav>
-
-        <div id="features" class="feature-grid">
-          <article class="feature-card" data-category="core">
-            <h3>Dashboard</h3>
-            <p>View your current learning status and recent activity.</p>
-          </article>
-          <article class="feature-card" data-category="core">
-            <h3>Assessments</h3>
-            <p>Track quizzes, assignments, and academic milestones.</p>
-          </article>
-          <article class="feature-card" data-category="core">
-            <h3>My Courses</h3>
-            <p>Access lessons, modules, and course materials in one place.</p>
-          </article>
-          <article class="feature-card" data-category="learning">
-            <h3>Progress</h3>
-            <p>Monitor your learning growth and completed tasks.</p>
-          </article>
-          <article class="feature-card" data-category="learning">
-            <h3>AI Study Assistants</h3>
-            <p>Get recommendations, summaries, and support tools.</p>
-          </article>
-          <article class="feature-card" data-category="support">
-            <h3>Notifications</h3>
-            <p>Stay updated with important alerts and updates.</p>
-          </article>
-          <article class="feature-card" data-category="support">
-            <h3>Safety Alerts</h3>
-            <p>Receive emergency and safety-related notifications.</p>
-          </article>
-          <article class="feature-card" data-category="resources">
-            <h3>Lesson Notes</h3>
-            <p>Review important points and class summaries.</p>
-          </article>
-          <article class="feature-card" data-category="resources">
-            <h3>Recorded Classes</h3>
-            <p>Watch replay sessions whenever it suits you.</p>
-          </article>
-          <article class="feature-card" data-category="resources">
-            <h3>Study Resources</h3>
-            <p>Access textbooks, questions, and revision guides.</p>
-          </article>
-        </div>
-      </section>
-    </main>
-
-    <footer id="contact" class="footer">
-      <p>StudyFlow © 2026</p>
-    </footer>
-
-    <script src="./script.js"></script>
+    <div class="phone-screen splash-screen" id="splashScreen">
+      <div class="splash-logo">🛡️</div>
+      <h2>EduSafe</h2>
+      <p>Learn anywhere. Stay safe.<br />Stay connected.</p>
+      <div class="splash-progress">
+        <div class="splash-progress-bar"></div>
+      </div>
+      <a href="#" id="getStartedBtn" class="btn-primary full-width"
+        >Get Started</a
+      
+      >
+      <a href="home.html" class="btn-secondary full-width" style="margin-top: 12px;">See the main page</a>
+    </div>
+    <script src="main.js"></script>
+  
   </body>
 </html>

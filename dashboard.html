@@ -1,950 +1,662 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - EduSafe</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-  </head>
-  <body>
-    <div class="page-wrapper">
-      <div class="dash-header">
-        <span class="badge" id="userRole">Student</span>
-        <h4 id="welcomeMessage">Welcome back, Alex</h4>
-        <p class="subtext">Continue where you left off</p>
-      </div>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            padding: 24px;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        .sidebar-brand {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            color: rgba(255,255,255,0.7);
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-bottom: 6px;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: rgba(59,130,246,0.2);
+            color: white;
+        }
+        .nav-item.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 4px 14px rgba(59,130,246,0.4);
+        }
+        .nav-item i {
+            width: 20px;
+            font-size: 18px;
+        }
+        .main-content {
+            margin-left: 260px;
+            padding: 32px;
+            min-height: 100vh;
+            background: #f1f5f9;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        .top-bar h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0;
+        }
+        .top-bar p {
+            color: #64748b;
+            margin: 4px 0 0 0;
+            font-size: 14px;
+        }
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 10px 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            cursor: pointer;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        .stat-info strong {
+            display: block;
+            font-size: 28px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        .stat-info span {
+            color: #64748b;
+            font-size: 13px;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0;
+        }
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .list-title {
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 15px;
+        }
+        .list-sub {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(59,130,246,0.4);
+        }
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 100px;
+            transition: width 0.5s ease;
+        }
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">🛡️</div>
+            <div class="sidebar-brand">EduSafe</div>
+        </div>
+        <div class="nav-item active" onclick="switchTab(this, 'home')">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this, 'courses')">
+            <i class="fas fa-book"></i>
+            <span>Courses</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this, 'attendance')">
+            <i class="fas fa-calendar-check"></i>
+            <span>Attendance</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this, 'grades')">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Grades</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this, 'resources')">
+            <i class="fas fa-folder-open"></i>
+            <span>Resources</span>
+        </div>
+        <div class="nav-item" id="logoutBtn" style="margin-top: auto;">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </div>
+    </aside>
 
-      <div class="dashboard-layout">
-        <nav class="dash-nav">
-          <button class="dash-tab-btn active" data-tab="tab-home">
-            <i class="fas fa-home"></i> <span>Home</span>
-          </button>
-          <button class="dash-tab-btn" data-tab="tab-courses">
-            <i class="fas fa-book"></i> <span>Courses</span>
-          </button>
-          <button class="dash-tab-btn" data-tab="tab-attendance">
-            <i class="fas fa-calendar-check"></i> <span>Attendance</span>
-          </button>
-          <button class="dash-tab-btn" data-tab="tab-grades">
-            <i class="fas fa-graduation-cap"></i> <span>Grades</span>
-          </button>
-          <button class="dash-tab-btn" data-tab="tab-resources">
-            <i class="fas fa-folder-open"></i> <span>Resources</span>
-          </button>
-        </nav>
-
-        <div class="dash-content">
-          <!-- HOME TAB -->
-          <div class="tab-panel active" id="tab-home">
-            <div class="card-row">
-              <div class="card">
-                <div class="card-title" id="courseCount">0</div>
-                <p class="card-subtext">My courses</p>
-              </div>
-              <div class="card">
-                <div class="card-title" id="attendancePct">—</div>
-                <p class="card-subtext">Attendance</p>
-              </div>
-              <div class="card">
-                <div class="card-title" id="gpaDisplay">0.0</div>
-                <p class="card-subtext">GPA</p>
-              </div>
+    <main class="main-content">
+        <div class="top-bar">
+            <div>
+                <h1 id="welcomeTitle">Welcome back, Alex!</h1>
+                <p id="welcomeSub">Here's what's happening today</p>
             </div>
-
-            <div class="card">
-              <div class="card-title">🤖 AI study assistant</div>
-              <p class="card-subtext">
-                Ask me anything, how can I help with your studies today?
-              </p>
-              <button
-                class="btn-sm btn-add"
-                style="margin-top: 8px"
-                onclick="openChat('study')"
-              >
-                <i class="fas fa-robot"></i> Open Assistant
-              </button>
-            </div>
-
-            <div class="card">
-              <div class="card-title">🎥 Online class</div>
-              <div class="role-tabs" id="classModeTabs" style="margin: 10px 0">
-                <button
-                  class="role-tab active"
-                  onclick="showClassMode('online', this)"
-                >
-                  💻 Online
-                </button>
-                <button
-                  class="role-tab"
-                  onclick="showClassMode('physical', this)"
-                >
-                  🏫 Physical
-                </button>
-              </div>
-              <div class="class-mode-content" id="classModeContent">
-                <p class="card-subtext">
-                  Algebra Basics — Live Class 3 today at 4:00 PM
-                </p>
-                <a href="https://zoom.us" target="_blank" class="btn-sm btn-add"
-                  >Join Zoom class</a
-                >
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-title">📝 Online quizzes</div>
-              <p class="card-subtext">
-                Take quizzes for the courses you're registered in
-              </p>
-              <button
-                class="btn-sm btn-add quiz-page-link"
-                onclick="openQuizzes()"
-              >
-                <i class="fas fa-pencil-alt"></i> Go to Quizzes
-              </button>
-            </div>
-
-            <div class="card">
-              <div class="card-title">📢 Announcements</div>
-              <p class="card-subtext">
-                School closed Friday for staff training
-              </p>
-              <p
-                class="card-subtext"
-                style="
-                  color: var(--primary-70);
-                  font-weight: 600;
-                  margin-top: 6px;
-                "
-              >
-                ⚠️ Safety alert: fire drill at 2pm today
-              </p>
-            </div>
-          </div>
-
-          <!-- COURSES TAB -->
-          <div class="tab-panel" id="tab-courses">
-            <div class="card">
-              <div class="card-title">My registered courses</div>
-              <div id="registeredList"></div>
-            </div>
-            <div class="card">
-              <div class="card-title">All courses</div>
-              <div id="allCoursesList"></div>
-            </div>
-            <div class="card">
-              <div class="card-title">🎬 Online tutorials</div>
-              <div class="list-item">
-                <div>
-                  <div class="list-item-title">
-                    W3Schools — Free study & coding tutorials
-                  </div>
-                  <div class="list-item-sub">External resource</div>
+            <div class="user-menu" onclick="toggleMenu()">
+                <div class="user-avatar" id="userAvatar">A</div>
+                <div style="text-align: left;">
+                    <div style="font-weight: 600; color: #0f172a;" id="userName">Alex Johnson</div>
+                    <div style="font-size: 12px; color: #64748b;">Student</div>
                 </div>
-                <a
-                  href="https://www.w3schools.com"
-                  target="_blank"
-                  class="btn-sm btn-add"
-                  >Visit</a
-                >
-              </div>
-              <div class="list-item">
-                <div>
-                  <div class="list-item-title">
-                    Recorded Class — Live Class 4
-                  </div>
-                  <div class="list-item-sub">
-                    Watch recorded sessions anytime
-                  </div>
+                <i class="fas fa-chevron-down" style="color: #64748b; margin-left: 8px;"></i>
+            </div>
+        </div>
+
+        <!-- Home Tab Content -->
+        <div class="tab-content active" id="home">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <strong id="courseCount">3</strong>
+                        <span>My Courses</span>
+                    </div>
                 </div>
-                <a
-                  href="https://www.youtube.com/results?search_query=online+class+tutorial"
-                  target="_blank"
-                  class="btn-sm btn-add"
-                  >Watch</a
-                >
-              </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <strong id="attendancePct">85%</strong>
+                        <span>Attendance</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="stat-info">
+                        <strong id="gpaDisplay">3.2</strong>
+                        <span>Current GPA</span>
+                    </div>
+                </div>
             </div>
-          </div>
 
-          <!-- ATTENDANCE TAB -->
-          <div class="tab-panel" id="tab-attendance">
-            <div id="attendanceContent"></div>
-            <button
-              class="btn-secondary full-width"
-              onclick="checkAllAttendance()"
-              style="margin-top: 16px"
-            >
-              <i class="fas fa-eye"></i> Check Course Attendance
-            </button>
-          </div>
-
-          <!-- GRADES TAB -->
-          <div class="tab-panel" id="tab-grades">
-            <div class="gpa-display">
-              <div class="gpa-label">Current GPA</div>
-              <div class="gpa-number" id="gpaNumber">0.0</div>
-              <div style="font-size: 14px; opacity: 0.9">—</div>
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Quick Actions</h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <button class="btn-primary" onclick="openChat('study')">
+                            <i class="fas fa-robot"></i> AI Study Buddy
+                        </button>
+                        <button class="btn-secondary" onclick="openQuizzes()">
+                            <i class="fas fa-clipboard-list"></i> Quizzes
+                        </button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Upcoming Classes</h3>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <div class="list-title">Algebra I</div>
+                            <div class="list-sub">Today, 10:00 AM</div>
+                        </div>
+                        <a href="#" class="btn-primary" style="padding: 6px 12px; font-size: 13px;">Join</a>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <div class="list-title">Biology</div>
+                            <div class="list-sub">Tomorrow, 1:00 PM</div>
+                        </div>
+                        <a href="#" class="btn-secondary" style="padding: 6px 12px; font-size: 13px;">View</a>
+                    </div>
+                </div>
             </div>
-            <div id="gradesList"></div>
-          </div>
 
-          <!-- RESOURCES TAB -->
-          <div class="tab-panel" id="tab-resources">
+            <div class="card" style="margin-top: 24px;">
+                <div class="card-header">
+                    <h3 class="card-title">My Courses</h3>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Algebra I</div>
+                        <div class="list-sub">12 lessons</div>
+                    </div>
+                    <button class="btn-secondary" style="padding: 8px 16px;">Open</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Biology</div>
+                        <div class="list-sub">10 lessons</div>
+                    </div>
+                    <button class="btn-secondary" style="padding: 8px 16px;">Open</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses Tab Content -->
+        <div class="tab-content" id="courses">
             <div class="card">
-              <div class="card-title">📚 School resources</div>
-              <div class="list-item">
-                <div class="list-item-title">Student handbook</div>
-                <a
-                  href="https://scholar.google.com"
-                  target="_blank"
-                  class="btn-sm btn-add"
-                  >Open</a
-                >
-              </div>
-              <div class="list-item">
-                <div class="list-item-title">Library portal</div>
-                <a
-                  href="https://openlibrary.org"
-                  target="_blank"
-                  class="btn-sm btn-add"
-                  >Open</a
-                >
-              </div>
-              <div class="list-item">
-                <div class="list-item-title">Counseling services</div>
-                <button class="btn-sm btn-add" onclick="openChat('counseling')">
-                  Talk to Counselor
+                <div class="card-header">
+                    <h3 class="card-title">My Courses</h3>
+                </div>
+                <div id="registeredList"></div>
+            </div>
+            <div class="card" style="margin-top: 24px;">
+                <div class="card-header">
+                    <h3 class="card-title">All Courses</h3>
+                </div>
+                <div id="allCoursesList"></div>
+            </div>
+        </div>
+
+        <!-- Attendance Tab Content -->
+        <div class="tab-content" id="attendance">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Attendance Overview</h3>
+                </div>
+                <div style="margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-weight: 600; color: #0f172a;">Overall Attendance</span>
+                        <span style="font-weight: 800; color: #3b82f6; font-size: 24px;">85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, #3b82f6, #8b5cf6);"></div>
+                    </div>
+                </div>
+                <div id="attendanceContent"></div>
+            </div>
+        </div>
+
+        <!-- Grades Tab Content -->
+        <div class="tab-content" id="grades">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Grades</h3>
+                </div>
+                <div class="list-item">
+                    <div style="flex: 1;">
+                        <div class="list-title">Algebra I</div>
+                        <div class="list-sub">85% - B</div>
+                        <div class="progress-bar" style="margin-top: 10px;">
+                            <div class="progress-fill" style="width: 85%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div style="flex: 1;">
+                        <div class="list-title">Biology</div>
+                        <div class="list-sub">78% - C+</div>
+                        <div class="progress-bar" style="margin-top: 10px;">
+                            <div class="progress-fill" style="width: 78%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources Tab Content -->
+        <div class="tab-content" id="resources">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Resources</h3>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Student Handbook</div>
+                        <div class="list-sub">PDF</div>
+                    </div>
+                    <button class="btn-secondary">Download</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Library Portal</div>
+                        <div class="list-sub">External Link</div>
+                    </div>
+                    <button class="btn-secondary">Open</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- AI Chat Modal -->
+    <div id="aiChatModal" class="chat-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center;">
+        <div class="chat-box" style="background: white; width: 90%; max-width: 500px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); overflow: hidden; display: flex; flex-direction: column; max-height: 85vh;">
+            <div class="chat-header" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); padding: 18px 20px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 700; color: white; font-size: 17px;">🤖 AI Study Buddy</span>
+                <button onclick="closeChat()" style="background: transparent; border: none; color: white; font-size: 20px; cursor: pointer;">
+                    <i class="fas fa-times"></i>
                 </button>
-              </div>
             </div>
-          </div>
+            <div id="apiKeyRow" class="chat-key-row" style="padding: 16px; border-bottom: 1px solid #e2e8f0;">
+                <input type="password" id="apiKeyInput" placeholder="Enter DeepSeek API Key" style="flex:1; padding: 10px 14px; border:1px solid #e2e8f0; border-radius: 10px; font-size:14px;">
+                <button class="btn-primary" style="margin-left: 10px; padding:10px 18px;" onclick="saveKey()">Save</button>
+            </div>
+            <div id="aiChatMessages" class="chat-messages" style="flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px;">
+                <div class="chat-message bot" style="display:flex;">
+                    <div class="chat-bubble" style="background: #f1f5f9; padding: 12px 16px; border-radius: 14px; max-width: 80%;">
+                        Hi there! Need help with studying?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-row" style="display:flex; padding: 16px; border-top:1px solid #e2e8f0; gap:10px;">
+                <input type="text" id="aiChatInput" placeholder="Ask anything..." style="flex:1; padding:12px 16px; border:1px solid #e2e8f0; border-radius:12px; font-size:14px;" onkeypress="if(event.key === 'Enter') sendChatMessage();">
+                <button class="btn-primary" onclick="sendChatMessage()" style="padding:12px 20px;">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
         </div>
-      </div>
-
-      <button
-        id="logoutBtn"
-        class="btn-secondary full-width"
-        style="margin-top: 20px"
-      >
-        <i class="fas fa-sign-out-alt"></i> Log Out
-      </button>
     </div>
 
-    <!-- AI CHAT MODAL -->
-    <div id="aiChatModal" class="chat-modal">
-      <div class="chat-box">
-        <div class="chat-header">
-          <span id="aiChatTitle">🤖 AI Assistant</span>
-          <button onclick="closeChat()" class="chat-close">✕</button>
-        </div>
-        <div id="apiKeyRow" class="chat-key-row">
-          <input
-            type="password"
-            id="apiKeyInput"
-            placeholder="Enter DeepSeek API key"
-          />
-          <button class="btn-sm btn-add" onclick="saveKey()">Save</button>
-        </div>
-        <div id="aiChatMessages" class="chat-messages">
-          <div class="chat-message bot">
-            <div class="chat-bubble">
-              👋 Hello! I'm your AI assistant. How can I help you today?
+    <!-- Quiz Modal -->
+    <div id="quizModal" class="chat-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center;">
+        <div class="chat-box" style="background: white; width: 90%; max-width: 500px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); overflow: hidden;">
+            <div class="chat-header" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); padding: 18px 20px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 700; color: white; font-size: 17px;">📝 Online Quizzes</span>
+                <button onclick="closeQuizModal()" style="background: transparent; border: none; color: white; font-size: 20px; cursor: pointer;">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-          </div>
+            <div style="padding:20px;">
+                <div class="list-item" onclick="startQuiz('Algebra')" style="cursor:pointer;">
+                    <div>
+                        <div class="list-title">Algebra I - Chapter 4</div>
+                        <div class="list-sub">10 questions • 20 minutes</div>
+                    </div>
+                    <button class="btn-primary">Start</button>
+                </div>
+            </div>
         </div>
-        <div class="chat-input-row">
-          <input
-            type="text"
-            id="aiChatInput"
-            placeholder="Type a message..."
-            onkeypress="if (event.key === 'Enter') sendChatMessage();"
-          />
-          <button class="btn-sm btn-add" onclick="sendChatMessage()">
-            <i class="fas fa-paper-plane"></i>
-          </button>
-        </div>
-      </div>
     </div>
 
-    <!-- QUIZ MODAL -->
-    <div id="quizModal" class="chat-modal">
-      <div class="chat-box" style="max-width: 380px">
-        <div class="chat-header">
-          <span>📝 Online Quizzes</span>
-          <button onclick="closeQuizModal()" class="chat-close">✕</button>
-        </div>
-        <div class="chat-messages" style="max-height: 350px">
-          <div class="quiz-item" onclick="startQuiz('Algebra')">
-            <div>
-              <div class="list-item-title">Algebra Basics - Chapter 4</div>
-              <div class="list-item-sub">10 questions · 20 minutes</div>
-            </div>
-            <button class="btn-sm btn-add">Start</button>
-          </div>
-          <div class="quiz-item" onclick="startQuiz('Physics')">
-            <div>
-              <div class="list-item-title">Physics - Chapter 2</div>
-              <div class="list-item-sub">8 questions · 15 minutes</div>
-            </div>
-            <button class="btn-sm btn-add">Start</button>
-          </div>
-          <div class="quiz-item" onclick="startQuiz('English')">
-            <div>
-              <div class="list-item-title">English Literature - Poetry</div>
-              <div class="list-item-sub">12 questions · 25 minutes</div>
-            </div>
-            <button class="btn-sm btn-add">Start</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ATTENDANCE DETAIL MODAL -->
-    <div id="attendanceDetailModal" class="chat-modal">
-      <div class="chat-box" style="max-width: 380px">
-        <div class="chat-header">
-          <span>📊 <span id="attDetailCourse">Course</span> Attendance</span>
-          <button onclick="closeAttendanceDetail()" class="chat-close">
-            ✕
-          </button>
-        </div>
-        <div
-          class="chat-messages"
-          style="max-height: 350px"
-          id="attDetailContent"
-        >
-          <div class="list-item">
-            <span>Total Classes</span
-            ><span><strong id="attTotal">0</strong></span>
-          </div>
-          <div class="list-item">
-            <span>Present</span><span><strong id="attPresent">0</strong></span>
-          </div>
-          <div class="list-item">
-            <span>Absent</span><span><strong id="attAbsent">0</strong></span>
-          </div>
-          <div class="list-item">
-            <span>Percentage</span
-            ><span><strong id="attPercent">0%</strong></span>
-          </div>
-          <div class="list-item" style="border-bottom: none">
-            <span>Status</span
-            ><span
-              ><strong id="attStatus" style="color: #4caf50"
-                >Good Standing</strong
-              ></span
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <script src="main.js"></script>
+    <script src="./ai-chat.js"></script>
     <script>
-      /* ================= Tab switching ================= */
-      const tabButtons = document.querySelectorAll(".dash-tab-btn");
-      const tabPanels = document.querySelectorAll(".tab-panel");
+        // Tab switching
+        function switchTab(el, tabId) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            el.classList.add('active');
 
-      tabButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          tabButtons.forEach((b) => b.classList.remove("active"));
-          tabPanels.forEach((p) => p.classList.remove("active"));
-          btn.classList.add("active");
-          document.getElementById(btn.dataset.tab).classList.add("active");
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Master course data
+        const allCourses = [
+            { id: 'algebra', name: 'Algebra I', info: '12 lessons' },
+            { id: 'biology', name: 'Biology', info: '10 lessons' },
+            { id: 'history', name: 'World History', info: '10 lessons' },
+            { id: 'writing', name: 'Creative Writing', info: '6 lessons' },
+            { id: 'chemistry', name: 'Chemistry', info: '9 lessons' }
+        ];
+
+        function getRegistered() {
+            const stored = localStorage.getItem('eduSafeRegistered');
+            return stored ? JSON.parse(stored) : ['algebra', 'biology'];
+        }
+
+        function saveRegistered(list) {
+            localStorage.setItem('eduSafeRegistered', JSON.stringify(list));
+        }
+
+        function registerCourse(id) {
+            const registered = getRegistered();
+            if (!registered.includes(id)) registered.push(id);
+            saveRegistered(registered);
+            renderCourses();
+        }
+
+        function dropCourse(id) {
+            let registered = getRegistered();
+            registered = registered.filter(c => c !== id);
+            saveRegistered(registered);
+            renderCourses();
+        }
+
+        function renderCourses() {
+            const registeredIds = getRegistered();
+            const registeredList = document.getElementById('registeredList');
+            const allList = document.getElementById('allCoursesList');
+            const registeredCourses = allCourses.filter(c => registeredIds.includes(c.id));
+
+            registeredList.innerHTML = registeredCourses.length ? registeredCourses.map(c => `
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">${c.name}</div>
+                        <div class="list-sub">${c.info}</div>
+                    </div>
+                    <button class="btn-secondary" onclick="dropCourse('${c.id}')" style="background:#fee2e2; color:#dc2626;">Drop</button>
+                </div>
+            `).join('') : '<p style="color:#64748b;">No courses registered yet</p>';
+
+            allList.innerHTML = allCourses.map(c => {
+                const isRegistered = registeredIds.includes(c.id);
+                return `
+                    <div class="list-item">
+                        <div>
+                            <div class="list-title">${c.name}</div>
+                            <div class="list-sub">${c.info}</div>
+                        </div>
+                        ${isRegistered ?
+                            '<button class="btn-secondary" style="background:#fee2e2; color:#dc2626;" onclick="dropCourse(\'' + c.id + '\')">Drop</button>' :
+                            '<button class="btn-primary" onclick="registerCourse(\'' + c.id + '\')">Register</button>'}
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('courseCount').textContent = registeredCourses.length;
+        }
+
+        function renderAttendance() {
+            const registeredIds = getRegistered();
+            const content = document.getElementById('attendanceContent');
+            content.innerHTML = registeredIds.map(id => {
+                const course = allCourses.find(c => c.id === id);
+                return `
+                    <div class="list-item">
+                        <div>
+                            <div class="list-title">${course.name}</div>
+                            <div class="list-sub">${Math.floor(Math.random() * 30 + 70)}% attendance</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openChat(mode) {
+            document.getElementById('aiChatModal').style.display = 'flex';
+        }
+        function closeChat() {
+            document.getElementById('aiChatModal').style.display = 'none';
+        }
+        function openQuizzes() {
+            document.getElementById('quizModal').style.display = 'flex';
+        }
+        function closeQuizModal() {
+            document.getElementById('quizModal').style.display = 'none';
+        }
+        function startQuiz(course) {
+            alert('Starting ' + course + ' quiz!');
+            closeQuizModal();
+        }
+        function toggleMenu() {}
+
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            clearSession();
+            window.location.href = 'index.html';
         });
-      });
 
-      /* ================= Master course data ================= */
-      const allCourses = [
-        {
-          id: "algebra",
-          name: "Algebra Basics",
-          info: "Mathematics · 12 lessons",
-        },
-        {
-          id: "biology",
-          name: "Intro to Biology",
-          info: "Science · 8 lessons",
-        },
-        {
-          id: "history",
-          name: "World History",
-          info: "Social studies · 10 lessons",
-        },
-        {
-          id: "writing",
-          name: "Creative Writing",
-          info: "Language arts · 6 lessons",
-        },
-        { id: "chemistry", name: "Chemistry 101", info: "Science · 9 lessons" },
-      ];
+        // Load user info if available
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCourses();
+            renderAttendance();
 
-      const attendanceRecords = {
-        algebra: [
-          { date: "May 1", status: "Present" },
-          { date: "May 3", status: "Present" },
-          { date: "May 6", status: "Absent" },
-          { date: "May 8", status: "Present" },
-        ],
-        biology: [
-          { date: "May 2", status: "Present" },
-          { date: "May 5", status: "Present" },
-          { date: "May 9", status: "Present" },
-        ],
-        history: [
-          { date: "May 1", status: "Absent" },
-          { date: "May 4", status: "Present" },
-          { date: "May 8", status: "Present" },
-        ],
-        writing: [
-          { date: "May 3", status: "Present" },
-          { date: "May 7", status: "Present" },
-        ],
-        chemistry: [
-          { date: "May 2", status: "Present" },
-          { date: "May 6", status: "Absent" },
-          { date: "May 10", status: "Present" },
-        ],
-      };
-
-      const gradeData = {
-        algebra: { score: 85 },
-        biology: { score: 72 },
-        history: { score: 65 },
-        writing: { score: 78 },
-        chemistry: { score: 55 },
-      };
-
-      function getGradeLetter(score) {
-        if (score >= 90) return "A";
-        if (score >= 80) return "B";
-        if (score >= 70) return "C";
-        if (score >= 60) return "D";
-        return "F";
-      }
-
-      function getRegistered() {
-        const stored = localStorage.getItem("eduSafeRegistered");
-        return stored ? JSON.parse(stored) : [];
-      }
-
-      function saveRegistered(list) {
-        localStorage.setItem("eduSafeRegistered", JSON.stringify(list));
-      }
-
-      function registerCourse(id) {
-        const registered = getRegistered();
-        if (!registered.includes(id)) registered.push(id);
-        saveRegistered(registered);
-        renderAll();
-      }
-
-      function dropCourse(id) {
-        let registered = getRegistered();
-        registered = registered.filter((c) => c !== id);
-        saveRegistered(registered);
-        renderAll();
-      }
-
-      function renderCourses() {
-        const registeredIds = getRegistered();
-        const registeredList = document.getElementById("registeredList");
-        const allList = document.getElementById("allCoursesList");
-        const registeredCourses = allCourses.filter((c) =>
-          registeredIds.includes(c.id),
-        );
-
-        registeredList.innerHTML = registeredCourses.length
-          ? registeredCourses
-              .map(
-                (c) => `
-          <div class="list-item">
-            <div>
-              <div class="list-item-title">${c.name}</div>
-              <div class="list-item-sub">${c.info}</div>
-            </div>
-            <button class="btn-sm btn-drop" onclick="dropCourse('${c.id}')">Drop</button>
-          </div>
-        `,
-              )
-              .join("")
-          : `<p class="empty-state">You haven't registered for any courses yet. Register below.</p>`;
-
-        allList.innerHTML = allCourses
-          .map((c) => {
-            const isRegistered = registeredIds.includes(c.id);
-            return `
-          <div class="list-item">
-            <div>
-              <div class="list-item-title">${c.name}</div>
-              <div class="list-item-sub">${c.info}</div>
-            </div>
-            ${
-              isRegistered
-                ? `<button class="btn-sm btn-drop" onclick="dropCourse('${c.id}')">Drop</button>`
-                : `<button class="btn-sm btn-add" onclick="registerCourse('${c.id}')">Register</button>`
+            const user = getCurrentUser();
+            if (user) {
+                if (user.name) {
+                    document.getElementById('welcomeTitle').textContent = 'Welcome back, ' + user.name + '!';
+                    document.getElementById('userName').textContent = user.name;
+                    document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+                }
             }
-          </div>
-        `;
-          })
-          .join("");
 
-        document.getElementById("courseCount").textContent =
-          registeredCourses.length;
-      }
-
-      function renderAttendance() {
-        const registeredIds = getRegistered();
-        const container = document.getElementById("attendanceContent");
-
-        if (registeredIds.length === 0) {
-          container.innerHTML = `<div class="card"><p class="empty-state">Register for a course to see your attendance record.</p></div>`;
-          document.getElementById("attendancePct").textContent = "—";
-          return;
-        }
-
-        let totalSessions = 0;
-        let totalPresent = 0;
-        let html = "";
-
-        registeredIds.forEach((id) => {
-          const course = allCourses.find((c) => c.id === id);
-          const records = attendanceRecords[id] || [];
-          const present = records.filter((r) => r.status === "Present").length;
-          const pct = records.length
-            ? Math.round((present / records.length) * 100)
-            : 0;
-
-          totalSessions += records.length;
-          totalPresent += present;
-
-          html += `
-          <div class="card" onclick="openAttendanceDetail('${id}')" style="cursor:pointer;">
-            <div class="card-title">${course.name} — ${pct}%</div>
-            <div class="attendance-bar"><div class="attendance-fill" style="width:${pct}%;"></div></div>
-            <div style="margin-top: 6px; display: flex; gap: 6px;">
-              <span class="attendance-status present">${present} Present</span>
-              <span class="attendance-status absent">${records.length - present} Absent</span>
-            </div>
-          </div>
-        `;
-        });
-
-        const overallPct = totalSessions
-          ? Math.round((totalPresent / totalSessions) * 100)
-          : 0;
-
-        container.innerHTML =
-          `
-        <div class="card" style="background: linear-gradient(135deg, var(--primary-50), var(--primary-60)); color: white;">
-          <div class="card-title" style="color: white;">Overall Attendance — ${overallPct}%</div>
-          <div class="attendance-bar" style="background: rgba(255,255,255,0.3);">
-            <div class="attendance-fill" style="width:${overallPct}%; background: white;"></div>
-          </div>
-          <p style="color: rgba(255,255,255,0.8); font-size: 13px; margin-top: 6px;">
-            ${totalPresent} present out of ${totalSessions} total sessions
-          </p>
-        </div>
-      ` + html;
-
-        document.getElementById("attendancePct").textContent = overallPct + "%";
-      }
-
-      function renderGrades() {
-        const registeredIds = getRegistered();
-        const container = document.getElementById("gradesList");
-        const gpaDisplay = document.getElementById("gpaNumber");
-
-        if (registeredIds.length === 0) {
-          container.innerHTML = `<p class="empty-state">Register for a course to see your grades.</p>`;
-          gpaDisplay.textContent = "0.0";
-          document.getElementById("gpaDisplay").textContent = "0.0";
-          return;
-        }
-
-        let totalPoints = 0;
-        let totalCredits = 0;
-        let gradesHtml = "";
-
-        registeredIds.forEach((id) => {
-          const course = allCourses.find((c) => c.id === id);
-          const grade = gradeData[id] || { score: 0 };
-          const letter = getGradeLetter(grade.score);
-          const gpaPoints = { A: 4.0, B: 3.0, C: 2.0, D: 1.0, F: 0.0 };
-          const points = gpaPoints[letter] || 0;
-          totalPoints += points;
-          totalCredits += 1;
-
-          gradesHtml += `
-          <div class="grade-card">
-            <div class="grade-header">
-              <span class="grade-course">${course.name}</span>
-              <span class="grade-score">${grade.score}%</span>
-            </div>
-            <div class="grade-bar">
-              <div class="grade-fill ${letter.toLowerCase()}" style="width: ${grade.score}%;"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-top: 6px;">
-              <span class="grade-letter ${letter.toLowerCase()}">${letter}</span>
-              <span style="font-size: 12px; color: var(--grey-30);">${course.info}</span>
-            </div>
-          </div>
-        `;
-        });
-
-        const gpa =
-          totalCredits > 0 ? (totalPoints / totalCredits).toFixed(1) : "0.0";
-        gpaDisplay.textContent = gpa;
-        document.getElementById("gpaDisplay").textContent = gpa;
-
-        const gpaNum = parseFloat(gpa);
-        let gpaLetter = "F";
-        if (gpaNum >= 3.7) gpaLetter = "A+";
-        else if (gpaNum >= 3.3) gpaLetter = "A";
-        else if (gpaNum >= 3.0) gpaLetter = "A-";
-        else if (gpaNum >= 2.7) gpaLetter = "B+";
-        else if (gpaNum >= 2.3) gpaLetter = "B";
-        else if (gpaNum >= 2.0) gpaLetter = "B-";
-        else if (gpaNum >= 1.7) gpaLetter = "C+";
-        else if (gpaNum >= 1.3) gpaLetter = "C";
-        else if (gpaNum >= 1.0) gpaLetter = "C-";
-        else if (gpaNum >= 0.7) gpaLetter = "D+";
-        else if (gpaNum >= 0.0) gpaLetter = "D";
-
-        const gpaDisplayDiv = document.querySelector(".gpa-display");
-        if (gpaDisplayDiv) {
-          gpaDisplayDiv.innerHTML = `
-          <div class="gpa-label">Current GPA</div>
-          <div class="gpa-number">${gpa}</div>
-          <div style="font-size: 14px; opacity: 0.9;">${gpaLetter}</div>
-        `;
-        }
-
-        container.innerHTML = gradesHtml;
-      }
-
-      function openAttendanceDetail(courseId) {
-        const course = allCourses.find((c) => c.id === courseId);
-        const records = attendanceRecords[courseId] || [];
-        const present = records.filter((r) => r.status === "Present").length;
-        const absent = records.length - present;
-        const pct = records.length
-          ? Math.round((present / records.length) * 100)
-          : 0;
-
-        document.getElementById("attDetailCourse").textContent = course
-          ? course.name
-          : "Course";
-        document.getElementById("attTotal").textContent = records.length;
-        document.getElementById("attPresent").textContent = present;
-        document.getElementById("attAbsent").textContent = absent;
-        document.getElementById("attPercent").textContent = pct + "%";
-
-        const statusEl = document.getElementById("attStatus");
-        if (pct >= 75) {
-          statusEl.textContent = "✅ Good Standing";
-          statusEl.style.color = "#4CAF50";
-        } else if (pct >= 60) {
-          statusEl.textContent = "⚠️ Warning";
-          statusEl.style.color = "#ff9800";
-        } else {
-          statusEl.textContent = "❌ At Risk";
-          statusEl.style.color = "#e74c3c";
-        }
-
-        let recordsHtml =
-          '<div style="margin-top: 12px; border-top: 1px solid var(--secondary-40); padding-top: 12px;"><strong>Attendance Records:</strong></div>';
-        records.forEach((r) => {
-          recordsHtml += `
-          <div class="list-item" style="border-bottom: 1px solid var(--secondary-30);">
-            <span>${r.date}</span>
-            <span style="${r.status === "Absent" ? "color: #e74c3c; font-weight: 600;" : "color: #4CAF50; font-weight: 600;"}">${r.status}</span>
-          </div>
-        `;
-        });
-
-        document.getElementById("attDetailContent").innerHTML = `
-        <div class="list-item"><span>Total Classes</span><span><strong>${records.length}</strong></span></div>
-        <div class="list-item"><span>Present</span><span><strong style="color: #4CAF50;">${present}</strong></span></div>
-        <div class="list-item"><span>Absent</span><span><strong style="color: #e74c3c;">${absent}</strong></span></div>
-        <div class="list-item"><span>Percentage</span><span><strong>${pct}%</strong></span></div>
-        <div class="list-item" style="border-bottom: none;"><span>Status</span><span><strong style="color: ${pct >= 75 ? "#4CAF50" : pct >= 60 ? "#ff9800" : "#e74c3c"};">${pct >= 75 ? "✅ Good Standing" : pct >= 60 ? "⚠️ Warning" : "❌ At Risk"}</strong></span></div>
-        ${recordsHtml}
-      `;
-
-        document.getElementById("attendanceDetailModal").classList.add("open");
-      }
-
-      function closeAttendanceDetail() {
-        document
-          .getElementById("attendanceDetailModal")
-          .classList.remove("open");
-      }
-
-      function checkAllAttendance() {
-        const registeredIds = getRegistered();
-        if (registeredIds.length === 0) {
-          alert(
-            "📊 You haven't registered for any courses yet.\nRegister for a course to see your attendance.",
-          );
-          return;
-        }
-
-        let message = "📊 Course Attendance Summary\n\n";
-        registeredIds.forEach((id) => {
-          const course = allCourses.find((c) => c.id === id);
-          const records = attendanceRecords[id] || [];
-          const present = records.filter((r) => r.status === "Present").length;
-          const pct = records.length
-            ? Math.round((present / records.length) * 100)
-            : 0;
-          const status = pct >= 75 ? "✅" : pct >= 60 ? "⚠️" : "❌";
-          message += `${status} ${course ? course.name : id}: ${pct}% (${present}/${records.length})\n`;
-        });
-
-        alert(message);
-      }
-
-      function renderAll() {
-        renderCourses();
-        renderAttendance();
-        renderGrades();
-      }
-
-      renderAll();
-
-      function showClassMode(mode, btn) {
-        const tabs = document.querySelectorAll("#classModeTabs .role-tab");
-        tabs.forEach((t) => t.classList.remove("active"));
-        btn.classList.add("active");
-
-        const content = document.getElementById("classModeContent");
-        if (mode === "online") {
-          content.innerHTML = `
-          <p class="card-subtext">Algebra Basics — Live Class 3 today at 4:00 PM</p>
-          <a href="https://zoom.us" target="_blank" class="btn-sm btn-add">Join Zoom class</a>
-        `;
-        } else {
-          content.innerHTML = `
-          <p class="card-subtext">📍 Physical Class — Room 301, Science Building</p>
-          <p class="card-subtext" style="font-weight: 600;">⏰ Today at 10:00 AM — 11:30 AM</p>
-          <button class="btn-sm btn-add" onclick="alert('📍 Room 301, Science Building\\n⏰ 10:00 AM - 11:30 AM')">View Location</button>
-        `;
-        }
-      }
-
-      let chatMode = "study";
-
-      function openChat(mode) {
-        chatMode = mode;
-        const modal = document.getElementById("aiChatModal");
-        const title = document.getElementById("aiChatTitle");
-
-        if (mode === "study") {
-          title.textContent = "🤖 AI Study Assistant";
-        } else {
-          title.textContent = "🧠 Counseling Services";
-        }
-
-        modal.classList.add("open");
-        document.getElementById("aiChatInput").focus();
-      }
-
-      function closeChat() {
-        document.getElementById("aiChatModal").classList.remove("open");
-      }
-
-      function saveKey() {
-        const key = document.getElementById("apiKeyInput").value.trim();
-        if (key) {
-          localStorage.setItem("deepseek_api_key", key);
-          alert("✅ API key saved successfully!");
-          document.getElementById("apiKeyRow").style.display = "none";
-        } else {
-          alert("Please enter a valid API key.");
-        }
-      }
-
-      function sendChatMessage() {
-        const input = document.getElementById("aiChatInput");
-        const message = input.value.trim();
-        if (!message) return;
-
-        const container = document.getElementById("aiChatMessages");
-
-        const userDiv = document.createElement("div");
-        userDiv.className = "chat-message user";
-        userDiv.innerHTML = `<div class="chat-bubble">${message}</div>`;
-        container.appendChild(userDiv);
-
-        input.value = "";
-        container.scrollTop = container.scrollHeight;
-
-        const apiKey = localStorage.getItem("deepseek_api_key");
-
-        if (apiKey) {
-          callDeepSeekAPI(message, container);
-        } else {
-          setTimeout(() => {
-            const responses = {
-              study: [
-                "That's a great question! Let me help you understand this better. 😊",
-                "I see what you're asking! Here's what you need to know about that topic.",
-                "Good question! Have you checked your course materials for this?",
-                "Let me break that down for you step by step. 🎓",
-                "That's interesting! Let me explain it in simple terms for you.",
-                "I think you're on the right track! Keep going with that approach.",
-                "Here's a helpful tip for studying that topic more effectively.",
-                "You're asking the right questions! Let me guide you through this.",
-              ],
-              counseling: [
-                "I hear you. Thank you for sharing that with me. 💙",
-                "That sounds challenging. How are you feeling about it right now?",
-                "I understand. Remember, it's okay to take things one step at a time.",
-                "You're doing great by reaching out. Let's work through this together.",
-                "I'm here for you. What would be most helpful right now?",
-                "That's a lot to handle. Have you tried taking a short break to recharge?",
-                "Your feelings are valid. Let's explore what might help you feel better.",
-                "You're not alone in this. Many students face similar challenges.",
-              ],
-            };
-
-            const possibleResponses = responses[chatMode] || responses["study"];
-            const randomResponse =
-              possibleResponses[
-                Math.floor(Math.random() * possibleResponses.length)
-              ];
-
-            const botDiv = document.createElement("div");
-            botDiv.className = "chat-message bot";
-            botDiv.innerHTML = `<div class="chat-bubble">${randomResponse}</div>`;
-            container.appendChild(botDiv);
-            container.scrollTop = container.scrollHeight;
-          }, 600);
-        }
-      }
-
-      async function callDeepSeekAPI(message, container) {
-        const apiKey = localStorage.getItem("deepseek_api_key");
-
-        try {
-          const response = await fetch(
-            "https://api.deepseek.com/v1/chat/completions",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${apiKey}`,
-              },
-              body: JSON.stringify({
-                model: "deepseek-chat",
-                messages: [
-                  {
-                    role: "system",
-                    content:
-                      chatMode === "study"
-                        ? "You are a helpful, friendly study assistant for students."
-                        : "You are a compassionate, empathetic counselor helping students with their well-being.",
-                  },
-                  { role: "user", content: message },
-                ],
-                temperature: 0.7,
-                max_tokens: 500,
-              }),
-            },
-          );
-
-          const data = await response.json();
-
-          if (data.choices && data.choices[0]) {
-            const botDiv = document.createElement("div");
-            botDiv.className = "chat-message bot";
-            botDiv.innerHTML = `<div class="chat-bubble">${data.choices[0].message.content}</div>`;
-            container.appendChild(botDiv);
-          } else {
-            throw new Error("Invalid response");
-          }
-        } catch (error) {
-          const fallbacks = [
-            "Sorry, I'm having trouble connecting. Here's a helpful thought: take a deep breath and keep going! 😊",
-            "I'm experiencing some technical difficulties. Remember, you're doing great! 💪",
-          ];
-          const botDiv = document.createElement("div");
-          botDiv.className = "chat-message bot";
-          botDiv.innerHTML = `<div class="chat-bubble">${fallbacks[Math.floor(Math.random() * fallbacks.length)]}</div>`;
-          container.appendChild(botDiv);
-        }
-
-        container.scrollTop = container.scrollHeight;
-      }
-
-      function openQuizzes() {
-        document.getElementById("quizModal").classList.add("open");
-      }
-
-      function closeQuizModal() {
-        document.getElementById("quizModal").classList.remove("open");
-      }
-
-      function startQuiz(course) {
-        alert(
-          `📝 Starting ${course} Quiz!\n\n📋 10 Questions\n⏱️ 20 Minutes\n\nGood luck! 🍀`,
-        );
-        closeQuizModal();
-      }
-
-      document
-        .getElementById("logoutBtn")
-        .addEventListener("click", function () {
-          localStorage.removeItem("edusafe_session");
-          localStorage.removeItem("eduSafeRegistered");
-          window.location.href = "splash.html";
-        });
-
-      document.querySelectorAll(".chat-modal").forEach((modal) => {
-        modal.addEventListener("click", function (e) {
-          if (e.target === this) {
-            this.classList.remove("open");
-          }
-        });
-      });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const apiKey = localStorage.getItem("deepseek_api_key");
-        if (apiKey) {
-          const keyRow = document.getElementById("apiKeyRow");
-          if (keyRow) keyRow.style.display = "none";
-        }
-
-        const session = localStorage.getItem("edusafe_session");
-        if (session) {
-          try {
-            const user = JSON.parse(session);
-            const welcomeEl = document.getElementById("welcomeMessage");
-            if (welcomeEl && user.name) {
-              welcomeEl.textContent = `Welcome back, ${user.name}`;
+            const savedKey = localStorage.getItem('deepseek_api_key');
+            if (savedKey) {
+                document.getElementById('apiKeyRow').style.display = 'none';
             }
-            const roleEl = document.getElementById("userRole");
-            if (roleEl && user.role) {
-              const roleMap = {
-                student: "Student",
-                teacher: "Teacher",
-                parent: "Parent",
-              };
-              roleEl.textContent = roleMap[user.role] || "Student";
-            }
-          } catch (e) {
-            console.log("Session parse error:", e);
-          }
-        }
-      });
-
-      console.log("✅ EduSafe Dashboard loaded successfully!");
-      console.log("📚 All features are working!");
+        });
     </script>
-  </body>
+</body>
 </html>

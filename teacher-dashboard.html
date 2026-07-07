@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - EduSafe</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            padding: 24px;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .sidebar-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        .sidebar-brand {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            color: rgba(255,255,255,0.7);
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-bottom: 6px;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: rgba(16,185,129,0.2);
+            color: white;
+        }
+        .nav-item.active {
+            background: linear-gradient(135deg, #059669, #047857);
+            box-shadow: 0 4px 14px rgba(16,185,129,0.4);
+        }
+        .nav-item i {
+            width: 20px;
+            font-size: 18px;
+        }
+        .main-content {
+            margin-left: 260px;
+            padding: 32px;
+            min-height: 100vh;
+            background: #f0fdf4;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        .top-bar h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #065f46;
+            margin: 0;
+        }
+        .top-bar p {
+            color: #065f46cc;
+            margin: 4px 0 0 0;
+            font-size: 14px;
+        }
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 10px 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            cursor: pointer;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #059669, #047857);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        .stat-info strong {
+            display: block;
+            font-size: 28px;
+            font-weight: 800;
+            color: #065f46;
+        }
+        .stat-info span {
+            color: #065f46cc;
+            font-size: 13px;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #065f46;
+            margin: 0;
+        }
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #dcfce7;
+        }
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .list-title {
+            font-weight: 600;
+            color: #065f46;
+            font-size: 15px;
+        }
+        .list-sub {
+            font-size: 13px;
+            color: #065f46cc;
+            margin-top: 4px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+        }
+        .btn-secondary {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .btn-secondary:hover {
+            background: #a7f3d0;
+        }
+        .progress-bar {
+            height: 8px;
+            background: #dcfce7;
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 100px;
+            transition: width 0.5s ease;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">🛡️</div>
+            <div class="sidebar-brand">EduSafe</div>
+        </div>
+        <div class="nav-item active" onclick="switchTab(this, 'home')">
+            <i class="fas fa-home"></i>
+            <span>Overview</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this, 'classes')">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Classes</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this, 'students')">
+            <i class="fas fa-users"></i>
+            <span>Students</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this, 'assignments')">
+            <i class="fas fa-file-alt"></i>
+            <span>Assignments</span>
+        </div>
+        <div class="nav-item" onclick="switchTab(this, 'resources')">
+            <i class="fas fa-folder-open"></i>
+            <span>Resources</span>
+        </div>
+        <div class="nav-item" id="logoutBtn" style="margin-top: auto;">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-bar">
+            <div>
+                <h1 id="welcomeTitle">Welcome, Mr. Smith!</h1>
+                <p id="welcomeSub">Ready for another great day of teaching?</p>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar" id="userAvatar">J</div>
+                <div style="text-align: left;">
+                    <div style="font-weight: 600; color: #065f46;" id="userName">John Smith</div>
+                    <div style="font-size: 12px; color: #065f46cc;">Teacher</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content active" id="home">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #059669, #047857);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <strong>32</strong>
+                        <span>Total Students</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #0891b2, #0e7490);">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <strong>5</strong>
+                        <span>Active Courses</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #db2777, #be185d);">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stat-info">
+                        <strong>12</strong>
+                        <span>Pending Grading</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="stat-info">
+                        <strong>2</strong>
+                        <span>Today's Classes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Today's Schedule</h3>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <div class="list-title">Algebra I (Period 1)</div>
+                            <div class="list-sub">10:00 AM - 11:00 AM</div>
+                        </div>
+                        <span class="badge" style="background:#d1fae5; color:#065f46;">Starting Soon</span>
+                    </div>
+                    <div class="list-item">
+                        <div>
+                            <div class="list-title">Biology (Period 3)</div>
+                            <div class="list-sub">1:00 PM - 2:00 PM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Quick Actions</h3>
+                    </div>
+                    <button class="btn-primary full-width" style="margin-bottom: 10px;">
+                        <i class="fas fa-plus"></i> New Assignment
+                    </button>
+                    <button class="btn-secondary full-width" style="margin-bottom: 10px;">
+                        <i class="fas fa-bullhorn"></i> Create Announcement
+                    </button>
+                    <button class="btn-secondary full-width">
+                        <i class="fas fa-upload"></i> Upload Resources
+                    </button>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 24px;">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Student Activity</h3>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Alex Johnson submitted Algebra HW</div>
+                        <div class="list-sub">10 minutes ago</div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Sarah Smith completed Biology Quiz</div>
+                        <div class="list-sub">30 minutes ago</div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Mike Brown asked a question in World History</div>
+                        <div class="list-sub">1 hour ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="classes">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">My Classes</h3>
+                    <button class="btn-primary"><i class="fas fa-plus"></i> New Class</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Algebra I</div>
+                        <div class="list-sub">12 students · Period 1</div>
+                    </div>
+                    <button class="btn-secondary">Manage</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Biology</div>
+                        <div class="list-sub">10 students · Period 3</div>
+                    </div>
+                    <button class="btn-secondary">Manage</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">World History</div>
+                        <div class="list-sub">10 students · Period 5</div>
+                    </div>
+                    <button class="btn-secondary">Manage</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="students">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Student Roster</h3>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Alex Johnson</div>
+                        <div class="list-sub">Algebra I, Biology</div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-secondary">View</button>
+                        <button class="btn-secondary">Message</button>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Sarah Smith</div>
+                        <div class="list-sub">Algebra I, World History</div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-secondary">View</button>
+                        <button class="btn-secondary">Message</button>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Mike Brown</div>
+                        <div class="list-sub">Biology, World History</div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-secondary">View</button>
+                        <button class="btn-secondary">Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="assignments">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Assignments</h3>
+                    <button class="btn-primary"><i class="fas fa-plus"></i> New Assignment</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Algebra - Chapter 5 HW</div>
+                        <div class="list-sub">Due: Friday · 8/12 submitted</div>
+                    </div>
+                    <button class="btn-primary">Grade</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Biology Lab Report</div>
+                        <div class="list-sub">Due: Wednesday · 5/10 submitted</div>
+                    </div>
+                    <button class="btn-primary">Grade</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="resources">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Resources</h3>
+                    <button class="btn-primary"><i class="fas fa-upload"></i> Upload</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Algebra - Chapter 5 Notes</div>
+                        <div class="list-sub">PDF · Updated 2 days ago</div>
+                    </div>
+                    <button class="btn-secondary">View</button>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div class="list-title">Biology - Lab Safety Guide</div>
+                        <div class="list-sub">PDF · Updated 1 week ago</div>
+                    </div>
+                    <button class="btn-secondary">View</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+    <script>
+        function switchTab(el, tabId) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            el.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            clearSession();
+            window.location.href = 'index.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = getCurrentUser();
+            if (user) {
+                if (user.name) {
+                    document.getElementById('welcomeTitle').textContent = 'Welcome, ' + user.name + '!';
+                    document.getElementById('userName').textContent = user.name;
+                    document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
